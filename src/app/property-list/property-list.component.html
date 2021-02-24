@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col-10">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Search
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Locality</mat-label>
+                        <div class="col-md-10">
+                            <input matInput type="text" name="locality" [(ngModel)]="searchProperty.locality"
+                                #locality="ngModel">
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Bathrooms</mat-label>
+                        <div class="col-md-10">
+                            <input matInput type="number" name="bathrooms" [(ngModel)]="searchProperty.bathrooms"
+                                #bathrooms="ngModel">
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Bedrooms</mat-label>
+                        <div class="col-md-10">
+                            <input matInput type="number" name="bedrooms" [(ngModel)]="searchProperty.bedrooms"
+                                #bedrooms="ngModel">
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>View count</mat-label>
+                        <div class="col-md-10">
+                            <input matInput type="number" name="viewCount" [(ngModel)]="searchProperty.viewCount"
+                                #viewCount="ngModel">
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Area (per sqft.)</mat-label>
+                        <div class="col-md-10">
+                            <input matInput type="number" name="sqArea" [(ngModel)]="searchProperty.sqArea"
+                                #sqArea="ngModel">
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <label class="col-md-6 col-form-label">Price</label>
+                    <div class="col-md-10">
+                        <mat-slider thumbLabel [(ngModel)]="searchProperty.price" [displayWith]="formatLabel"
+                            tickInterval="100000" min="1" max="10000000">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="col-md-6 col-form-label">Date</label>
+                    <div class="col-md-10">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                                <input matStartDate formControlName="start" placeholder="Start date">
+                                <input matEndDate formControlName="end"placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="margin-top: 10px; margin-left: 15px;">
+                    <button type="button" class="btn btn-primary" style="margin-right: 5px;"
+                        (click)="searchData()">Search</button>
+                    <button type="button" class="btn btn-secondary" (click)="clearSearch()">clear</button>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-primary" (click)="openDialog()">Add new property</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6" *ngFor="let property of propertyList">
+        <div class="row">
+            <div class="col-4">
+                <img class="rounded img-thumbnail img-demo"
+                    [src]="getImageSrc(property)" alt="data image">
+            </div>
+            <div class="col-8" style="margin-top: 10px;">
+                <div class="row details">
+                    <h5 class="item-lables">Name:</h5> {{property.name}} {{property.Images}}
+                </div>
+                <div class="row">
+                    <h5 class="item-lables">Address:</h5> {{property.address}}
+                </div>
+                <div class="row">
+                    <h5 class="item-lables">View count:</h5> {{property.viewCount}}
+                </div>
+                <div class="row">
+                    <button class="btn btn-outline-primary item-lables" (click)="updateFav(property.id)">
+                        {{property.favourite ? 'Remove from favourites' : 'Add as a favourite'}}
+                    </button>
+                    <button class="btn btn-primary" (click)="viewDialog(property.id)">View propety</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="propertyList.length === 0" class="col-md-12 alert alert-secondary no-data-found">
+        No data found
+    </div>
+
+</div>

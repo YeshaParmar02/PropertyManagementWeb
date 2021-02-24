@@ -1,0 +1,96 @@
+<h2 mat-dialog-title>{{ isViewMood ? 'View Property' :'Add property'}}</h2>
+<form #entryForm="ngForm" (ngSubmit)="sendEntry()">
+    <mat-dialog-content class="mat-typography" style="width: 800px;">
+        <div class="row" *ngIf="isViewMood">
+            <app-image-carousel [imageList]="getAllImagePath()"></app-image-carousel>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="name" [(ngModel)]="property.name" #name="ngModel"
+                        required [disabled]="isViewMood">
+                    <div class="input-err" *ngIf="name.invalid && name.touched">Please provide name</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Description</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="desc" [(ngModel)]="property.description"
+                        #description="ngModel" [disabled]="isViewMood">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Address</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="addr" [(ngModel)]="property.address" #addr="ngModel"
+                        [disabled]="isViewMood">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Locality</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="locality" [(ngModel)]="property.locality"
+                        #locality="ngModel" [disabled]="isViewMood">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Bedrooms</label>
+                <div class="col-md-10">
+                    <input type="number" class="form-control" name="bedrooms" [(ngModel)]="property.bedrooms"
+                        #bedrooms="ngModel" [disabled]="isViewMood">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Bathrooms</label>
+                <div class="col-md-10">
+                    <input type="number" class="form-control" name="bathrooms" [(ngModel)]="property.bathrooms"
+                        #bathrooms="ngModel" [disabled]="isViewMood">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Area (per sqft.)</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" name="sqArea" [(ngModel)]="property.sqArea"
+                        #sqArea="ngModel" required [disabled]="isViewMood">
+                    <div class="input-err" *ngIf="sqArea.invalid && sqArea.touched">Please provide area</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-6 col-form-label">Price</label>
+                <div class="col-md-10">
+                    <input type="number" class="form-control" name="price" [(ngModel)]="property.price" #price="ngModel"
+                        required [disabled]="isViewMood">
+                    <div class="input-err" *ngIf="price.invalid && price.touched">Please provide price</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" *ngIf="!isViewMood">
+                <label class="col-md-6 col-form-label">Images</label>
+                <div class="row">
+                    <div *ngFor="let image of imageUrls" class="col-md-2">
+                        <img width="50px" style="margin-right: 5px;" [src]="image" class="image">
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <button type="button" class="btn btn-primary" (click)="mediaFileInput.click()">UploadFile</button>
+                    <input hidden multiple type='file' id="mediaFileInput" accept=".png, .jpg, .jpeg" #mediaFileInput
+                        (change)="handleFileInput($event)" />
+                </div>
+                <span *ngIf="lengthRestriction" style="color: red;">*max 5 files can be uploaded</span>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button *ngIf="!isViewMood" mat-button style="color: #0053ad;" [disabled]="!entryForm.valid"
+            [mat-dialog-close]="true" type="submit">Send</button>
+        <button mat-button mat-dialog-close>Cancle</button>
+    </mat-dialog-actions>
+</form>
